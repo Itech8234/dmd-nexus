@@ -1,0 +1,7 @@
+﻿
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+# --- CORS (space-separated origins, e.g. the deployed dashboard origin) ---
+# (create user, assignments, etc.) are not silently blocked by CORS.
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3999,http://localhost:8000
+
+

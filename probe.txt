@@ -1,0 +1,4 @@
+﻿port 8000 healthz: HTTP 200
+port 8000 admin: HTTP 200
+port 8001 healthz: ERR Unable to connect to the remote server
+port 8001 admin: ERR Unable to connect to the remote server

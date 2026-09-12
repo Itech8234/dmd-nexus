@@ -1,0 +1,293 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-surface text-ink font-sans;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Theme tokens — raw rgb triplets consumed by tailwind.config.ts.
+   Light (:root) matches the original hard-coded palette exactly.
+   Dark (.dark) is a purpose-built command-room palette, not a color inversion.
+   Applied pre-paint by the boot script in src/app/layout.tsx.
+--------------------------------------------------------------------------- */
+:root {
+  --brand-50: 238 244 255;
+  --brand-100: 219 230 254;
+  --brand-200: 191 211 254;
+  --brand-300: 147 180 253;
+  --brand-400: 96 138 250;
+  --brand-500: 59 100 244;
+  --brand-600: 37 72 232;
+  --brand-700: 29 54 213;
+  --brand-800: 31 49 172;
+  --brand-900: 30 46 136;
+  --brand-950: 23 30 82;
+
+  --ink: 15 23 42;
+  --ink-soft: 51 65 85;
+  --ink-muted: 100 116 139;
+  --ink-faint: 148 163 184;
+
+  --surface: 246 247 251;
+  --surface-panel: 255 255 255;
+  --surface-raised: 255 255 255;
+  --surface-sunken: 238 241 246;
+  --surface-line: 226 232 240;
+
+  --slate-50: 248 250 252;
+  --slate-100: 241 245 249;
+  --slate-200: 226 232 240;
+  --slate-300: 203 213 225;
+  --slate-400: 148 163 184;
+  --slate-500: 100 116 139;
+  --slate-600: 71 85 105;
+  --slate-700: 51 65 85;
+  --slate-800: 30 41 59;
+  --slate-900: 15 23 42;
+
+  --red-50: 254 242 242;
+  --emerald-50: 236 253 245;
+  --emerald-100: 209 250 229;
+  --amber-50: 255 251 235;
+  --blue-50: 239 246 255;
+  --orange-50: 255 247 237;
+  --indigo-50: 238 242 255;
+  --violet-50: 245 243 255;
+  --purple-50: 250 245 255;
+  --fuchsia-50: 253 244 255;
+}
+
+.dark {
+  --brand-50: 24 33 70;
+  --brand-100: 30 41 88;
+  --brand-200: 42 56 110;
+  --brand-300: 70 92 158;
+  --brand-400: 96 138 250;
+  --brand-500: 47 84 220;
+  --brand-600: 59 100 244;
+  --brand-700: 133 158 255;
+  --brand-800: 147 180 253;
+  --brand-900: 191 211 254;
+  --brand-950: 219 230 254;
+
+  --ink: 241 245 249;
+  --ink-soft: 203 213 225;
+  --ink-muted: 148 163 184;
+  --ink-faint: 100 116 139;
+
+  --surface: 8 11 22;
+  --surface-panel: 15 21 38;
+  --surface-raised: 20 27 46;
+  --surface-sunken: 24 32 52;
+  --surface-line: 43 53 78;
+
+  --slate-50: 20 27 46;
+  --slate-100: 30 39 61;
+  --slate-200: 44 55 80;
+  --slate-300: 62 74 102;
+  --slate-400: 126 140 165;
+  --slate-500: 148 163 184;
+  --slate-600: 176 187 204;
+  --slate-700: 203 213 225;
+  --slate-800: 226 232 240;
+  --slate-900: 2 6 16;
+
+  --red-50: 64 22 27;
+  --emerald-50: 8 46 36;
+  --emerald-100: 16 66 52;
+  --amber-50: 58 40 12;
+  --blue-50: 18 38 68;
+  --orange-50: 58 34 12;
+  --indigo-50: 28 32 74;
+  --violet-50: 44 26 74;
+  --purple-50: 42 20 66;
+  --fuchsia-50: 52 16 58;
+}
+
+/* Cards/panels/inputs use bg-white; route them through the panel token in
+   dark mode. text-white is intentionally left untouched (on-brand buttons). */
+.dark .bg-white {
+  background-color: rgb(var(--surface-panel));
+}
+
+/* Shadows need more strength to read on dark surfaces. */
+.dark .shadow-card {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+}
+.dark .shadow-lift {
+  box-shadow: 0 4px 16px -2px rgb(0 0 0 / 0.5);
+}
+.dark .shadow-pop {
+  box-shadow: 0 12px 40px -8px rgb(0 0 0 / 0.6);
+}
+
+/* Slim, subtle scrollbars for the command-centre feel. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--slate-300)) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--slate-300));
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Leaflet / operations map
+--------------------------------------------------------------------------- */
+.pu-cluster-wrap {
+  background: transparent;
+  border: 0;
+}
+.pu-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 2px solid rgb(255 255 255 / 0.9);
+  box-shadow: 0 2px 10px rgb(15 23 42 / 0.35);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  transition: transform 0.15s ease-out;
+}
+.pu-cluster:hover {
+  transform: scale(1.08);
+}
+.dark .pu-cluster {
+  border-color: rgb(8 11 22 / 0.9);
+}
+/* Leaflet chrome (popups, tooltips, attribution) themed for both modes. */
+.leaflet-container {
+  font: inherit;
+  background: #e8edf4;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+/* Force all Leaflet internal panes and controls to stay below app chrome */
+.leaflet-pane,
+.leaflet-tile-pane,
+.leaflet-overlay-pane,
+.leaflet-shadow-pane,
+.leaflet-marker-pane,
+.leaflet-tooltip-pane,
+.leaflet-popup-pane,
+.leaflet-zoom-box-pane,
+.leaflet-image-layer-pane {
+  z-index: 0 !important;
+}
+.leaflet-control-container,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1 !important;
+}
+.leaflet-control {
+  z-index: 1 !important;
+}
+.leaflet-popup {
+  z-index: 1 !important;
+}
+.leaflet-tooltip {
+  z-index: 1 !important;
+}
+/* Ensure map tiles never bleed above the header/sidebar */
+.leaflet-tile-pane {
+  z-index: 0 !important;
+}
+.dark .leaflet-container {
+  background: #0b1020;
+}
+
+/* --- Map / navbar layering ------------------------------------------------
+   Leaflet's internal panes use z-index 200–700 and its controls 800–1000,
+   which used to escape the (previously non-stacking) map wrapper and draw
+   OVER the app's fixed header/sidebar/drawer. The map wrapper now creates a
+   stacking context (`isolate` + `z-0`), and this belt-and-braces rule caps
+   every leaflet pane/control inside it so nothing painted by the map can
+   rise above the app chrome (header z-30, drawer z-50, notifications z-50). */
+.leaflet-map-pane,
+.leaflet-overlay-pane,
+.leaflet-shadow-pane,
+.leaflet-marker-pane,
+.leaflet-tooltip-pane,
+.leaflet-popup-pane,
+.leaflet-control-container {
+  z-index: 0 !important;
+}
+.leaflet-control {
+  z-index: 1 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 1 !important;
+}
+.leaflet-popup {
+  z-index: 1 !important;
+}
+.leaflet-tooltip {
+  z-index: 1 !important;
+}
+.leaflet-tooltip {
+  background: rgb(var(--surface-panel));
+  color: rgb(var(--ink));
+  border: 1px solid rgb(var(--surface-line));
+  box-shadow: 0 4px 16px -2px rgb(15 23 42 / 0.2);
+}
+.leaflet-tooltip-top:before {
+  border-top-color: rgb(var(--surface-panel));
+}
+.leaflet-control-attribution {
+  background: rgb(var(--surface-panel) / 0.85) !important;
+  color: rgb(var(--ink-muted)) !important;
+  font-size: 10px;
+}
+.leaflet-control-attribution a {
+  color: rgb(var(--ink-muted)) !important;
+}
+.leaflet-bar a {
+  background: rgb(var(--surface-panel)) !important;
+  color: rgb(var(--ink)) !important;
+  border-bottom-color: rgb(var(--surface-line)) !important;
+}
+
+/* Contain layout utility — creates a strict containment context so
+   absolutely-positioned children (Leaflet panes, markers, popups) cannot
+   visually escape their wrapper regardless of internal z-index values. */
+.contain-layout {
+  contain: layout paint;
+}
+
+/* Ensure the Leaflet container establishes a proper stacking context
+   so internal panes stay within the map wrapper's z-index scope. */
+.leaflet-container {
+  isolation: isolate;
+}
